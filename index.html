@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Bá Thịnh & Mỹ An — 12.09.2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#F6EFE2;
+    --paper:#FBF7EE;
+    --wine:#6E2233;
+    --wine-dark:#4C1622;
+    --brass:#B4863A;
+    --rose:#B4767A;
+    --jade:#3E5B47;
+    --ink:#2B1C1A;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ivory);
+    color:var(--ink);
+    font-family:'Be Vietnam Pro', sans-serif;
+    font-weight:300;
+    overflow-x:hidden;
+  }
+  body.locked{overflow:hidden; height:100vh;}
+  .serif{font-family:'Playfair Display', serif;}
+  .wrap{max-width:520px; margin:0 auto; position:relative;}
+
+  /* ---------- Envelope cover ---------- */
+  #cover{
+    position:fixed; inset:0; z-index:50;
+    background:linear-gradient(180deg, var(--wine-dark), var(--wine) 55%, var(--wine-dark));
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:28px;
+    cursor:pointer;
+    transition:opacity .9s ease, visibility .9s ease;
+  }
+  #cover.opened{opacity:0; visibility:hidden; pointer-events:none;}
+  #cover .env-svg{width:190px; height:auto; filter:drop-shadow(0 10px 24px rgba(0,0,0,.35));}
+  #cover .flap{transform-origin:100px 62px; transition:transform .8s cubic-bezier(.6,0,.3,1);}
+  #cover.opened .flap{transform:rotateX(150deg);}
+  #cover .env-label{
+    color:var(--ivory); text-align:center; letter-spacing:.06em;
+    font-size:14px; font-weight:400; opacity:.85;
+  }
+  #cover .env-names{
+    color:#EFE0C8; font-size:30px; text-align:center; line-height:1.3;
+  }
+  @keyframes floatY{0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)}}
+  #cover .tap-hint{animation:floatY 2.4s ease-in-out infinite;}
+
+  /* ---------- generic section ---------- */
+  section{padding:64px 28px; text-align:center; position:relative;}
+  .kicker{
+    font-size:12px; letter-spacing:.14em; color:var(--brass);
+    font-weight:500; margin-bottom:10px;
+  }
+  h1,h2{font-family:'Playfair Display', serif; font-weight:600; color:var(--wine);}
+  .divider{
+    width:56px; height:1px; background:var(--brass); margin:22px auto;
+    opacity:.6;
+  }
+  .seal{
+    width:64px; height:64px; margin:0 auto 18px;
+    border:1px solid var(--brass); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--wine); font-size:26px; font-family:'Playfair Display', serif;
+  }
+
+  /* ---------- hero ---------- */
+  #hero{
+    background:var(--paper);
+    padding-top:56px; padding-bottom:56px;
+  }
+  #hero .names{
+    font-size:44px; line-height:1.15; color:var(--wine); margin:14px 0 6px;
+  }
+  #hero .amp{color:var(--brass); font-style:italic; font-size:34px; margin:0 10px;}
+  #hero .date-badge{
+    display:inline-flex; gap:10px; align-items:baseline;
+    border-top:1px solid var(--brass); border-bottom:1px solid var(--brass);
+    padding:14px 26px; margin-top:22px; font-size:14px; letter-spacing:.05em;
+  }
+  #hero .date-badge b{font-family:'Playfair Display',serif; font-size:20px; color:var(--wine);}
+  #hero .lunar{font-size:12.5px; color:#7a6a5c; margin-top:10px;}
+
+  /* ---------- family ---------- */
+  #family{background:var(--ivory);}
+  .fam-grid{display:flex; gap:18px; margin-top:30px;}
+  .fam-card{flex:1; padding:22px 14px; background:var(--paper); border:1px solid #e8dcc4; border-radius:2px;}
+  .fam-card h3{font-family:'Playfair Display',serif; font-size:15px; color:var(--jade); font-weight:600; margin-bottom:12px;}
+  .fam-card p{font-size:14.5px; line-height:1.9; color:var(--ink);}
+
+  /* ---------- countdown ---------- */
+  #countdown{background:var(--wine); color:var(--ivory);}
+  #countdown h2{color:var(--ivory);}
+  #countdown .divider{background:var(--brass);}
+  .cd-row{display:flex; justify-content:center; gap:14px; margin-top:26px;}
+  .cd-cell{
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.25);
+    border-radius:4px; padding:14px 10px; min-width:64px;
+  }
+  .cd-cell b{display:block; font-family:'Playfair Display',serif; font-size:28px;}
+  .cd-cell span{font-size:11px; letter-spacing:.08em; opacity:.8;}
+  #countdown .note{margin-top:22px; font-size:14px; opacity:.9;}
+
+  /* ---------- event / calendar ---------- */
+  #event{background:var(--paper);}
+  .cal{max-width:300px; margin:26px auto 0; font-size:13px;}
+  .cal-head{display:grid; grid-template-columns:repeat(7,1fr); margin-bottom:6px;}
+  .cal-head span{color:var(--brass); font-weight:500; font-size:11px;}
+  .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); row-gap:8px;}
+  .cal-grid span{color:#8a7a68;}
+  .cal-grid .highlight{
+    background:var(--wine); color:#fff; border-radius:50%;
+    width:24px; height:24px; display:flex; align-items:center; justify-content:center;
+    margin:0 auto; font-weight:600;
+  }
+  .event-time{margin-top:30px; font-size:15px; line-height:1.9;}
+  .event-time b{color:var(--wine); font-family:'Playfair Display',serif; font-size:19px;}
+  .btn{
+    display:inline-block; margin-top:22px; padding:13px 30px;
+    border:1px solid var(--wine); color:var(--wine); text-decoration:none;
+    font-size:13.5px; letter-spacing:.05em; border-radius:2px;
+    transition:background .3s, color .3s;
+  }
+  .btn:hover{background:var(--wine); color:#fff;}
+
+  /* ---------- location ---------- */
+  #location{background:var(--ivory);}
+  .venue-name{font-family:'Playfair Display',serif; color:var(--wine); font-size:20px; margin-top:4px;}
+  .venue-addr{font-size:14px; color:#5a4c40; margin-top:6px;}
+  .map-frame{
+    margin-top:24px; border:1px solid #e8dcc4; border-radius:2px; overflow:hidden;
+    filter:sepia(8%) saturate(85%);
+  }
+  .map-frame iframe{width:100%; height:220px; border:0; display:block;}
+
+  /* ---------- hero photo ---------- */
+  .hero-photo{
+    width:168px; height:168px; border-radius:50%; overflow:hidden;
+    margin:20px auto 4px; border:3px solid var(--paper); outline:1px solid var(--brass);
+    box-shadow:0 10px 26px rgba(76,22,34,.18);
+  }
+  .hero-photo img{width:100%; height:100%; object-fit:cover; display:block;}
+
+  /* ---------- gallery ---------- */
+  #gallery{background:var(--paper);}
+  .gallery-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:28px;
+  }
+  .gallery-grid img{width:100%; height:100%; object-fit:cover; display:block; border-radius:1px;}
+  .gallery-grid .tall{grid-row:span 2;}
+
+  /* ---------- message ---------- */
+  #message{
+    position:relative; color:var(--ivory); padding:90px 28px;
+    background-size:cover; background-position:center;
+  }
+  #message::before{
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(62,91,71,.55), rgba(43,28,26,.72));
+  }
+  #message .wrap{position:relative; z-index:1;}
+  #message p.quote{font-family:'Playfair Display',serif; font-style:italic; font-size:20px; line-height:1.6; max-width:380px; margin:0 auto;}
+  #message .divider{background:var(--brass);}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--wine-dark); color:var(--ivory); padding:52px 28px 40px; text-align:center;}
+  footer .names{font-family:'Playfair Display',serif; font-size:24px; margin-bottom:6px;}
+  footer .date{font-size:13px; letter-spacing:.06em; opacity:.75; margin-bottom:24px;}
+  .share-btn{
+    background:none; border:1px solid var(--brass); color:var(--ivory);
+    padding:11px 24px; font-size:13px; letter-spacing:.05em; border-radius:2px;
+    cursor:pointer; font-family:'Be Vietnam Pro', sans-serif;
+  }
+  footer .credit{margin-top:30px; font-size:11px; opacity:.45;}
+
+  #main-content{opacity:0; transition:opacity 1s ease;}
+  #main-content.show{opacity:1;}
+
+  @media (max-width:380px){
+    #hero .names{font-size:36px;}
+    .cd-cell{min-width:54px; padding:12px 6px;}
+  }
+</style>
+</head>
+<body class="locked">
+
+<!-- ================= COVER / ENVELOPE ================= -->
+<div id="cover">
+  <svg class="env-svg" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="20" width="180" height="100" rx="3" fill="#F6EFE2" stroke="#B4863A" stroke-width="1.2"/>
+    <polygon points="10,20 100,80 190,20" fill="none" stroke="#B4863A" stroke-width="1.2"/>
+    <circle cx="100" cy="62" r="12" fill="#6E2233"/>
+    <text x="100" y="67" text-anchor="middle" fill="#EFE0C8" font-size="13" font-family="Playfair Display, serif">囍</text>
+    <g class="flap">
+      <polygon points="10,20 100,80 190,20 100,10" fill="#8C2C40" stroke="#B4863A" stroke-width="1.2"/>
+    </g>
+  </svg>
+  <div class="env-names serif">Bá Thịnh &amp; Mỹ An</div>
+  <div class="env-label tap-hint">✦ CHẠM ĐỂ MỞ THIỆP ✦</div>
+</div>
+
+<!-- ================= MAIN CONTENT ================= -->
+<div id="main-content">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="wrap">
+      <div class="kicker">TRÂN TRỌNG KÍNH MỜI</div>
+      <div class="seal">囍</div>
+      <div class="hero-photo"><img src="assets/images/img1.jpg" alt="Bá Thịnh &amp; Mỹ An"></div>
+      <div class="names serif">Bá Thịnh<span class="amp">&amp;</span>Mỹ An</div>
+      <div class="divider"></div>
+      <div class="date-badge">
+        <b>11:00</b><span>·</span><b>Thứ Bảy</b><span>·</span><b>12.09.2026</b>
+      </div>
+      <div class="lunar">(Nhằm ngày 02 tháng 08 năm Bính Ngọ)</div>
+    </div>
+  </section>
+
+  <!-- FAMILY -->
+  <section id="family">
+    <div class="wrap">
+      <div class="kicker">LỄ THÀNH HÔN</div>
+      <h2>Hai Gia Đình</h2>
+      <div class="divider"></div>
+      <div class="fam-grid">
+        <div class="fam-card">
+          <h3>NHÀ TRAI</h3>
+          <p>Bà Hồ Thị Dung</p>
+        </div>
+        <div class="fam-card">
+          <h3>NHÀ GÁI</h3>
+          <p>Ông Trương Công Siêm<br>Bà Lê Thị Thu</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section id="countdown">
+    <div class="wrap">
+      <div class="kicker" style="color:#E7C77A">HỒI HỘP QUÁ ĐI</div>
+      <h2>Đếm Ngược Ngày Cưới</h2>
+      <div class="divider"></div>
+      <div class="cd-row" id="cd-row">
+        <div class="cd-cell"><b id="cd-d">0</b><span>NGÀY</span></div>
+        <div class="cd-cell"><b id="cd-h">0</b><span>GIỜ</span></div>
+        <div class="cd-cell"><b id="cd-m">0</b><span>PHÚT</span></div>
+        <div class="cd-cell"><b id="cd-s">0</b><span>GIÂY</span></div>
+      </div>
+      <div class="note" id="cd-note">Đang chờ đến giờ đẹp… 🎉</div>
+    </div>
+  </section>
+
+  <!-- EVENT + CALENDAR -->
+  <section id="event">
+    <div class="wrap">
+      <div class="kicker">THỜI GIAN TỔ CHỨC</div>
+      <h2>Tiệc Mừng Lễ Thành Hôn</h2>
+      <div class="divider"></div>
+      <div class="cal">
+        <div class="cal-head">
+          <span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>CN</span>
+        </div>
+        <div class="cal-grid">
+          <span></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+          <span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span class="highlight">12</span><span>13</span>
+          <span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span>
+          <span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span>
+          <span>28</span><span>29</span><span>30</span>
+        </div>
+      </div>
+      <div class="event-time">Vào lúc <b>11 giờ 00</b><br>Thứ Bảy, ngày <b>12.09.2026</b></div>
+      <a class="btn" id="add-cal" href="#" target="_blank" rel="noopener">+ Thêm vào lịch</a>
+    </div>
+  </section>
+
+  <!-- LOCATION -->
+  <section id="location">
+    <div class="wrap">
+      <div class="kicker">ĐỊA ĐIỂM TỔ CHỨC</div>
+      <div class="venue-name serif">Sân Vận Động Khối Phố Hà Tây</div>
+      <div class="venue-addr">Phường Điện Bàn Bắc, Thành Phố Đà Nẵng</div>
+      <div class="map-frame">
+        <iframe loading="lazy" src="https://maps.google.com/maps?q=15.934638,108.205440&z=16&hl=vi&output=embed"></iframe>
+      </div>
+      <a class="btn" href="https://www.google.com/maps/dir/?api=1&destination=15.934638,108.205440" target="_blank" rel="noopener">Chỉ Đường</a>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="wrap">
+      <div class="kicker">KHOẢNH KHẮC</div>
+      <h2>Album Ảnh Cưới</h2>
+      <div class="divider"></div>
+      <div class="gallery-grid">
+        <img class="tall" src="assets/images/img2.jpg" alt="Bá Thịnh &amp; Mỹ An">
+        <img src="assets/images/img3.jpg" alt="Bá Thịnh &amp; Mỹ An">
+        <img src="assets/images/img4.jpg" alt="Bá Thịnh &amp; Mỹ An">
+      </div>
+    </div>
+  </section>
+
+  <!-- MESSAGE -->
+  <section id="message" style="background-image:url('assets/images/img5.jpg');">
+    <div class="wrap">
+      <p class="quote">"Yêu nhau là cùng nhau nhìn về một hướng."</p>
+      <div class="divider"></div>
+      <p style="font-size:13px; letter-spacing:.08em; opacity:.85;">THỊNH &amp; AN</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="names">Bá Thịnh &amp; Mỹ An</div>
+      <div class="date">12 · 09 · 2026</div>
+      <p style="font-size:13.5px; line-height:1.8; max-width:340px; margin:0 auto 26px; opacity:.9;">
+        Sự hiện diện của Quý khách chính là mảnh ghép hoàn hảo nhất, làm trọn vẹn niềm hạnh phúc trong ngày trọng đại của chúng tôi.
+      </p>
+      <button class="share-btn" id="share-btn">🔗 Chia sẻ thiệp</button>
+      <div class="credit">Thiệp cưới online</div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // open envelope
+  const cover = document.getElementById('cover');
+  const mainContent = document.getElementById('main-content');
+  cover.addEventListener('click', () => {
+    cover.classList.add('opened');
+    document.body.classList.remove('locked');
+    setTimeout(() => mainContent.classList.add('show'), 200);
+  });
+
+  // countdown to 2026-09-12 11:00 (Vietnam time, UTC+7)
+  const target = new Date('2026-09-12T11:00:00+07:00').getTime();
+  function tick(){
+    const now = Date.now();
+    const diff = target - now;
+    const note = document.getElementById('cd-note');
+    if(diff <= 0){
+      document.getElementById('cd-d').textContent = '0';
+      document.getElementById('cd-h').textContent = '0';
+      document.getElementById('cd-m').textContent = '0';
+      document.getElementById('cd-s').textContent = '0';
+      note.textContent = 'Hôm nay là ngày trọng đại! 💍';
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-d').textContent = d;
+    document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+    document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // add to calendar (Google Calendar link)
+  const calLink = document.getElementById('add-cal');
+  const start = '20260912T040000Z'; // 11:00 +07 -> 04:00 UTC
+  const end   = '20260912T070000Z';
+  const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Lễ Thành Hôn Bá Thịnh & Mỹ An')}&dates=${start}/${end}&details=${encodeURIComponent('Trân trọng kính mời quý khách đến chung vui trong ngày Lễ Thành Hôn.')}&location=${encodeURIComponent('Sân Vận Động Khối Phố Hà Tây, Phường Điện Bàn Bắc, Thành Phố Đà Nẵng')}`;
+  calLink.href = gcalUrl;
+
+  // share
+  document.getElementById('share-btn').addEventListener('click', async () => {
+    const shareData = {
+      title: 'Thiệp Cưới · Bá Thịnh & Mỹ An',
+      text: 'Trân trọng kính mời quý khách đến chung vui trong ngày Lễ Thành Hôn của chúng tôi.',
+      url: window.location.href
+    };
+    if(navigator.share){
+      try{ await navigator.share(shareData); }catch(e){}
+    } else {
+      try{
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Đã sao chép liên kết thiệp cưới!');
+      }catch(e){
+        alert('Không thể sao chép liên kết.');
+      }
+    }
+  });
+</script>
+</body>
+</html>
